@@ -1,4 +1,4 @@
-local opt = vim.opt 
+local opt = vim.opt
 
 -- line numbers
 opt.relativenumber = true
@@ -36,4 +36,3 @@ opt.splitright = true
 opt.splitbelow = true
 
 opt.iskeyword:append("-")
-
