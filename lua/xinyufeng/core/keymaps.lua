@@ -58,3 +58,6 @@ keymap.set("n", "<leader>gs", "<cmd>Telescope git_status<cr>") -- list current c
 
 -- restart lsp server (not on youtube nvim video)
 keymap.set("n", "<leader>rs", ":LspRestart<CR>") -- mapping to restart lsp if necessary
+
+--keymap.set("n", "<leader>p", ':lua require("nabla").popup()<CR>') -- " Customize with popup({border = ...})  : `single` (default), `double`, `rounded`
+keymap.set("n", "<leader>p", ':lua require("nabla").toggle_virt()<CR>')

@@ -22,6 +22,7 @@ null_ls.setup({
 		formatting.clang_format, -- cpp formatter
 		formatting.prettier, -- js/ts formatter
 		formatting.stylua, -- lua formatter
+		formatting.pylink,
 		diagnostics.eslint_d.with({ -- js/ts linter
 			-- only enable eslint if root has .eslintrc.js (not in youtube nvim video)
 			condition = function(utils)
@@ -37,6 +38,7 @@ null_ls.setup({
 				group = augroup,
 				buffer = bufnr,
 				callback = function()
+					-- on 0.8, you should use vim.lsp.buf.format({ bufnr = bufnr }) instead
 					vim.lsp.buf.format({
 						filter = function(client)
 							--  only use null-ls for formatting instead of lsp server

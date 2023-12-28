@@ -10,12 +10,6 @@ if not cmp_nvim_lsp_status then
 	return
 end
 
--- import typescript plugin safely
-local typescript_setup, typescript = pcall(require, "typescript")
-if not typescript_setup then
-	return
-end
-
 local keymap = vim.keymap -- for conciseness
 
 -- enable keybinds only for when lsp server available
@@ -58,20 +52,50 @@ for type, icon in pairs(signs) do
 end
 
 -- configure html server
-lspconfig["html"].setup({
+--lspconfig["html"].setup({
+--	capabilities = capabilities,
+--	on_attach = on_attach,
+--})
+--
+---- configure typescript server with plugin
+--typescript.setup({
+--	server = {
+--		capabilities = capabilities,
+--		on_attach = on_attach,
+--	},
+--})
+
+lspconfig["clangd"].setup({
 	capabilities = capabilities,
 	on_attach = on_attach,
-})
-
--- configure typescript server with plugin
-typescript.setup({
-	server = {
-		capabilities = capabilities,
-		on_attach = on_attach,
+	cmd = {
+		"clangd",
+		"--all-scopes-completion",
+		"--background-index",
+		"--clang-tidy",
+		"--compile_args_from=filesystem", -- lsp-> does not come from compie_commands.json
+		"--completion-parse=always",
+		"--completion-style=bundled",
+		"--cross-file-rename",
+		"--debug-origin",
+		"--enable-config", -- clangd 11+ supports reading from .clangd configuration file
+		"--fallback-style=Qt",
+		"--folding-ranges",
+		"--function-arg-placeholders",
+		"--header-insertion=iwyu",
+		"--pch-storage=memory", -- could also be disk
+		"--suggest-missing-includes",
+		"-j=4", -- number of workers
+		-- "--resource-dir="
+		"--log=error",
+		"--std=c++17",
+		--"--query-driver=/usr/bin/g++",
+		--"-isysroot=/usr/local/cuda-12",
+		-- [ "--query-driver=/usr/bin/g++", ]]
 	},
 })
 
-lspconfig["clangd"].setup({
+lspconfig["cmake"].setup({
 	capabilities = capabilities,
 	on_attach = on_attach,
 })
@@ -87,6 +111,12 @@ lspconfig["cssls"].setup({
 	on_attach = on_attach,
 })
 
+-- configure python server
+lspconfig["pyright"].setup({
+	capabilities = capabilities,
+	on_attach = on_attach,
+})
+
 -- configure tailwindcss server
 lspconfig["tailwindcss"].setup({
 	capabilities = capabilities,
@@ -94,7 +124,7 @@ lspconfig["tailwindcss"].setup({
 })
 
 -- configure lua server (with special settings)
-lspconfig["sumneko_lua"].setup({
+lspconfig["lua_ls"].setup({
 	capabilities = capabilities,
 	on_attach = on_attach,
 	settings = { -- custom settings for lua

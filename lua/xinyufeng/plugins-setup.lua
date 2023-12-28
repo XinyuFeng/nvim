@@ -13,8 +13,8 @@ local packer_bootstrap = ensure_packer() -- true if packer was just installed
 
 -- You will likely want to reduce updatetime which affects CursorHold
 -- note: this setting is global and should be set only once
-vim.o.updatetime = 250
-vim.cmd([[autocmd! CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]])
+--vim.o.updatetime = 250
+--vim.cmd([[autocmd! CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]])
 -- autocommand that reloads neovim and installs/updates/removes plugins
 -- when file is saved
 vim.cmd([[ 
@@ -41,6 +41,19 @@ return packer.startup(function(use)
 			})
 		end,
 	})
+
+	-- latex
+	use({
+		"jbyuki/nabla.nvim",
+		run = function()
+			require("nabla").enable_virt({
+				autogen = true,
+				silent = true,
+			})
+		end,
+	})
+	-- night scheme
+	use("folke/tokyonight.nvim")
 
 	use("wbthomason/packer.nvim")
 
@@ -111,6 +124,9 @@ return packer.startup(function(use)
 
 	-- git integration
 	use("lewis6991/gitsigns.nvim") -- show line modifications on left hand side
+
+	-- vim Tex
+	use("lervag/vimtex")
 
 	if packer_bootstrap then
 		require("packer").sync()
